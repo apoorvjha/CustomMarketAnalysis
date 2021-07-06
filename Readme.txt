@@ -11,4 +11,5 @@ The simulator is planned to be developed in such a way that it can be beneficial
 For the sake of experimentation I will be incorporating some subset of RL as well as some other timeseries forecasting models into the test so as to benchmark the RL baed solution with respect to traditional models.
 
 # Data-collection
-The first and foremost module that I am starting to work upon is responsible for scarping the yahoo finance web site and retrive the stock market data which meets the specified condition and shall be returned in the Pandas dataframe format suitable for furthur analysis.
+The first and foremost module that I am starting to work upon is responsible for scarping the yahoo finance web site and retrive the stock market data which meets the specified condition and shall be returned in the Pandas dataframe format suitable for furthur analysis. The scraping of Yahoo finace website is handelled by 'yfinance' library of python which was recently released to support the applications which rely on the deprecated yahoo finance API. 
+
