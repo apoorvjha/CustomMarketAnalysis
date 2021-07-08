@@ -1,6 +1,7 @@
-import yfinance  
+from random import choices,randInt
+from string import ascii_lowercase, ascii_uppercase, digits  
 import gym
-from numpy import array,inf
+from numpy import array,inf,exp
 
 class Company:
     def __init__(self,name,price,volume):
@@ -105,7 +106,27 @@ class StockMarket(gym.Env):
                     return True            
     def update_prices(self):
         for i in self.firms:
-            i.prices += len(i.holders) / self.index  
+            i.prices += exp(len(i.holders) / self.index)
+    def render(self):
+        print("<- Market ->")
+        for i in self.firms:
+            print(f"{i.name}    {i.price}   {i.volume} {len(i.holders)}")
+        print("<- Players ->")
+        for i in self.investment.keys():
+            print(f"{i}     {self.investment[i]}    {self.balance[i]}")
+
+
+if __name__=='__main__':
+    firms=[]
+    firms.append(Company('XYZ',2,200))
+    market=StockMarket(firms,10)
+    id=market.register(100)
+    obs=market.reset()
+    while(not done):
+        action=randInt(0,2)
+        obs, reward, done, info = market.step(action,id,'XYZ')
+        market.render()
+
 
 
     
