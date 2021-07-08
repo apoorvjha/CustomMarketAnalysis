@@ -124,6 +124,7 @@ if __name__=='__main__':
     market=StockMarket(firms,10)
     id=market.register(100)
     obs=market.reset('XYZ')
+    done=False
     while(not done):
         action=randint(0,2)
         obs, reward, done, info = market.step(action,id,'XYZ')
