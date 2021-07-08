@@ -37,7 +37,7 @@ class StockMarket(gym.Env):
         self.observation_space=gym.spaces.Box(low=array([-inf,0]),high=array([inf,inf]))
         # init_price_vector stores the initial price of all the partiipating companies.
         self.init_price_vector=[i.price for i in self.firms]
-    def reset(self):
+    def reset(self,name):
         for i,j in zip(self.firms,self.init_price_vector):
             i.price=j
             i.holders=[]
@@ -123,7 +123,7 @@ if __name__=='__main__':
     firms.append(Company('XYZ',2,200))
     market=StockMarket(firms,10)
     id=market.register(100)
-    obs=market.reset()
+    obs=market.reset('XYZ')
     while(not done):
         action=randint(0,2)
         obs, reward, done, info = market.step(action,id,'XYZ')
