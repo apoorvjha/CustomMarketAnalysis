@@ -42,7 +42,7 @@ class StockMarket(gym.Env):
         self.index=1
         return self.next_observation()
     def generate_id(self):
-        return ''.join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase, k = 10))
+        return ''.join(choices(ascii_uppercase + digits + ascii_lowercase, k = 10))
     def register(self,investment):
         flag=0
         while(flag==0):
