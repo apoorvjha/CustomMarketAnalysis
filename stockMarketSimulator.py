@@ -24,7 +24,7 @@ class StockMarket(gym.Env):
         self.n_actions=3
         self.invester=[]
         #self.n_observations=n_observations
-        self.n_actions=n_actions
+        #self.n_actions=n_actions
         self.n_firms=0
         self.sim_time=sim_time
         for i in self.firms:
