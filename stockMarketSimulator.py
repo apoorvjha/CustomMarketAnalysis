@@ -42,7 +42,7 @@ class StockMarket(gym.Env):
             i.price=j
             i.holders=[]
         self.index=1
-        return self.next_observation()
+        return self.next_observation(name)
     def generate_id(self):
         return ''.join(choices(ascii_uppercase + digits + ascii_lowercase, k = 10))
     def register(self,investment):
