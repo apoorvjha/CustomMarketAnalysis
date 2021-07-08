@@ -1,4 +1,4 @@
-from random import choices,randInt
+from random import choices,randint
 from string import ascii_lowercase, ascii_uppercase, digits  
 import gym
 from numpy import array,inf,exp
@@ -123,7 +123,7 @@ if __name__=='__main__':
     id=market.register(100)
     obs=market.reset()
     while(not done):
-        action=randInt(0,2)
+        action=randint(0,2)
         obs, reward, done, info = market.step(action,id,'XYZ')
         market.render()
 
