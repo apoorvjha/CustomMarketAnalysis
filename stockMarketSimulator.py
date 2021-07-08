@@ -29,7 +29,7 @@ class StockMarket(gym.Env):
         self.sim_time=sim_time
         for i in self.firms:
             self.n_firms+=1
-        self.action_space=gym.spaces.Discrete(n_actions)
+        self.action_space=gym.spaces.Discrete(self.n_actions)
         # Normalized prices will be returned as observation within the range of 0-1. 
         # Each observation will contain the n_observations steps of data (time series formalism).
         self.observation_space=gym.spaces.Box(low=array([-inf,0]),high=array([inf,inf]))
