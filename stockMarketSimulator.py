@@ -45,7 +45,7 @@ class StockMarket(gym.Env):
         return self.next_observation(name)
     def generate_id(self):
         return ''.join(choices(ascii_uppercase + digits + ascii_lowercase, k = 10))
-    def register(self,investment):
+    def register(self,seed):
         flag=0
         while(flag==0):
             id=self.generate_id()
@@ -53,8 +53,8 @@ class StockMarket(gym.Env):
                 flag=1
                 break
         self.invester.append(id)
-        self.investment[id]=investment
-        self.balance[id]=self.investment
+        self.investment[id]=seed
+        self.balance[id]=seed
         return id
     def next_observation(self,name):
         for i in self.firms:
@@ -72,10 +72,10 @@ class StockMarket(gym.Env):
     def step(self, action, id, name=None):
         status=self.take_action(action,id,name)
         self.update_prices()
-        reward=self.reward_function()
+        reward=self.reward_function(id)
         obs=self.next_observation(name)
         info={}
-        if self.index>=self.sim_time or self.balance <= 0:
+        if self.index>=self.sim_time or self.balance[id] <= 0:
             self.index=1
             done=True
         else:
@@ -91,7 +91,7 @@ class StockMarket(gym.Env):
                 if i.name==name: 
                     if i.volume <= 0:
                         return False   
-                    self.balance[id]-=i.price
+                    self.balance[id]-= i.price
                     i.holders.append(id)
                     i.volume-=1
                     return True
@@ -101,21 +101,25 @@ class StockMarket(gym.Env):
         else:
             # sell order
             for i in self.firms:
-                if i.name==name:   
-                    self.balance[id]+=i.price
+                if i.name==name:
+                    if id not in i.holders:
+                        return False   
+                    self.balance[id]+= i.price
                     i.holders.remove(id)
                     i.volume+=1
                     return True            
     def update_prices(self):
+        # Need improvement in the price upfate strategy.
         for i in self.firms:
-            i.prices += exp(len(i.holders) / self.index)
+            i.price += exp(len(i.holders) / self.index)
     def render(self):
-        print("<- Market ->")
+        print(self.index)
+        print("         <- Market ->")
         for i in self.firms:
-            print(f"{i.name}    {i.price}   {i.volume} {len(i.holders)}")
-        print("<- Players ->")
+            print(f"    {i.name}    {i.price}   {i.volume} {len(i.holders)}")
+        print("         <- Players ->")
         for i in self.investment.keys():
-            print(f"{i}     {self.investment[i]}    {self.balance[i]}")
+            print(f"    {i}     {self.investment[i]}    {self.balance[i]}")
 
 
 if __name__=='__main__':
@@ -128,6 +132,7 @@ if __name__=='__main__':
     while(not done):
         action=randint(0,2)
         obs, reward, done, info = market.step(action,id,'XYZ')
+        print(reward)
         market.render()
 
 
