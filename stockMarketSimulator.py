@@ -1,4 +1,4 @@
-from random import choices,randint
+from random import choices,randint,random
 from string import ascii_lowercase, ascii_uppercase, digits  
 import gym
 from numpy import array,inf,exp
@@ -6,7 +6,9 @@ from numpy import array,inf,exp
 class Company:
     def __init__(self,name,price,volume):
         # 'name' : String ; Represents name of the company.
-        # 'dataset' : Pandas.DataFrame ; the DataFrame object corresponding to the company's stock market data.
+        # 'price' : Float ; Initial Public Offering price of the stock.
+        # 'volume' : Integer ; Unit share the company is willing to offer.
+        # 'holders' : List [AlphaNumeric] ; Unique identifiers of each trader who currently owns the stake of the firm. 
         self.name=name
         self.price=price
         self.volume=volume
@@ -14,17 +16,24 @@ class Company:
 
 class StockMarket(gym.Env):
     def __init__(self,firms,sim_time):
-        # 'firms' : [...] ; each element is object of "Company" class.
-        # 'n_observations' : Integer ; representing the size of observation space.
-        # 'actions' : Integer ; Number of permissible actions allowed in the market.  
+        # 'firms' : [Company] ; each element is object of "Company" class.
+        # 'index' : Integer ; The quantum of time upto which the simulation has been done.
+        # 'normalization_factor' : Integer ; Normalizes the reward function into the desired limit.
+        # 'n_actions' : Integer ; The permissible size of action space.
+        # 'invester' : [AlphaNumeric] ; Unique identifiers of each tradercurrently taking part in the market activities.
+        # 'investment' : Dictionary=>AlphaNumeric->Float ; Key value pair to track the initial investment of each trader.
+        # 'balance' :  Dictionary=>AlphaNumeric->Float ; Key value pair to track the current cash balance of the trader.
+        # 'n_firms' : Integer ; Total number of firms whose shares are available for trade.
+        # 'sim_time' : Integer ; The total permissible amount of time upto which the simulation would run.
+        # 'action_space' : Integer ; The permissible range of action values.
+        # 'observation_space' : Float ; The permissible range of observation values.
+        # 'init_price_vector' : [Float] ; The initial price values which will be used to reset the simulator to it's orignal checkpoint.
         super(StockMarket,self).__init__()
         self.firms=firms
-        self.index=1    # the point upto which the market is simulated.
+        self.index=1     
         self.normalization_factor=10
         self.n_actions=3
         self.invester=[]
-        #self.n_observations=n_observations
-        #self.n_actions=n_actions
         self.investment={}
         self.balance={}
         self.n_firms=0
@@ -32,10 +41,7 @@ class StockMarket(gym.Env):
         for i in self.firms:
             self.n_firms+=1
         self.action_space=gym.spaces.Discrete(self.n_actions)
-        # Normalized prices will be returned as observation within the range of 0-1. 
-        # Each observation will contain the n_observations steps of data (time series formalism).
         self.observation_space=gym.spaces.Box(low=array([-inf,0]),high=array([inf,inf]))
-        # init_price_vector stores the initial price of all the partiipating companies.
         self.init_price_vector=[i.price for i in self.firms]
     def reset(self,name):
         for i,j in zip(self.firms,self.init_price_vector):
@@ -111,7 +117,7 @@ class StockMarket(gym.Env):
     def update_prices(self):
         # Need improvement in the price upfate strategy.
         for i in self.firms:
-            i.price += exp(len(i.holders) / self.index)
+            i.price += exp(len(i.holders) / self.index) - (random() * len(self.invester) / self.index)
     def render(self):
         print(self.index)
         print("         <- Market ->")
@@ -119,20 +125,21 @@ class StockMarket(gym.Env):
             print(f"    {i.name}    {i.price}   {i.volume} {len(i.holders)}")
         print("         <- Players ->")
         for i in self.investment.keys():
-            print(f"    {i}     {self.investment[i]}    {self.balance[i]}")
+            print(f"    {i}     {self.investment[i]}    {self.balance[i]}   {self.asset_balance(i)}")
 
 
 if __name__=='__main__':
     firms=[]
     firms.append(Company('XYZ',2,200))
     market=StockMarket(firms,10)
-    id=market.register(100)
+    uid=[market.register(100)]
     obs=market.reset('XYZ')
     done=False
     while(not done):
         action=randint(0,2)
+        id=uid[0]
         obs, reward, done, info = market.step(action,id,'XYZ')
-        print(reward)
+        print(f"Reward = {reward}")
         market.render()
 
 
