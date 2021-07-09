@@ -38,7 +38,7 @@ Following are possible ways which one can use to run the simulator :
 					market.render()
 					action=market.action_space.sample()
 					id=users[randint(0,len(users)-1)]
-					firm=companies[randint(0,len(companies))].name
+					firm=companies[randint(0,len(companies)-1)].name
 					obs, reward, done, info=market.step(action,id,firm)
 		c. Execute the newly created file using the below command,
 			$python3 [FILE_NAME].py
