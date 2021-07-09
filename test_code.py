@@ -1,7 +1,7 @@
 import stockMarketSimulator as sim
 from random import randint
 if __name__=='__main__':
-n=int(input("Enter number of entities : "))
+	n=int(input("Enter number of entities : "))
     companies=[]
 	for i in range(n):
 	    name=input(f"Enter name of #entity[{i+1}] : ")
