@@ -225,15 +225,15 @@ class StockMarket(gym.Env):
         print("-----------------------------------------------------------------------------------------------")
         for col in self.firms:
             print(col.name,end="")
-        for i in range(30-len(col.name)):
-            print(end=" ")
-        print("|   ",round(col.price,3),end="")
-        for i in range(10-len(str(round(col.price,3)))):
-            print(end=" ")
-        print("|   ",round(col.volume,3),end="")
-        for i in range(10-len(str(round(col.volume,3)))):
-            print(end=" ")
-        print("|   ",len(col.holders))
+            for i in range(30-len(col.name)):
+                print(end=" ")
+            print("|   ",round(col.price,3),end="")
+            for i in range(10-len(str(round(col.price,3)))):
+                print(end=" ")
+            print("|   ",round(col.volume,3),end="")
+            for i in range(10-len(str(round(col.volume,3)))):
+                print(end=" ")
+            print("|   ",len(col.holders))
         print()
         print("#--------------------------------------Player Metadata---------------------------------------------#")
         print("Invester ID",end="")
@@ -249,15 +249,15 @@ class StockMarket(gym.Env):
         print("-----------------------------------------------------------------------------------------------")
         for col in self.investment.keys():
             print(col,end="")
-        for i in range(30-len(col)):
-            print(end=" ")
-        print("|   ",round(self.investment[col],3),end="")
-        for i in range(10-len(str(round(self.investment[col],3)))):
-            print(end=" ")
-        print("|   ",round(self.balance[col],3),end="")
-        for i in range(10-len(str(round(self.balance[col],3)))):
-            print(end=" ")
-        print("|   ",round(self.asset_balance(col),3))
+            for i in range(30-len(col)):
+                print(end=" ")
+            print("|   ",round(self.investment[col],3),end="")
+            for i in range(10-len(str(round(self.investment[col],3)))):
+                print(end=" ")
+            print("|   ",round(self.balance[col],3),end="")
+            for i in range(10-len(str(round(self.balance[col],3)))):
+                print(end=" ")
+            print("|   ",round(self.asset_balance(col),3))
         print()
 
 
