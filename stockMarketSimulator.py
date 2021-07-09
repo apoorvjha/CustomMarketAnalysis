@@ -260,18 +260,6 @@ class StockMarket(gym.Env):
         print("|   ",round(self.asset_balance(col),3))
         print()
 
-if __name__=='__main__':
-    firms=[]
-    firms.append(Company('XYZ',2,200))
-    market=StockMarket(firms,10)
-    uid=[market.register(100)]
-    done=market.reset()
-    while(not done):
-        market.render()
-        action=randint(0,2)
-        id=uid[0]
-        obs, reward, done, info = market.step(action,id,'XYZ')
-        print(f"Reward = {reward}")
 
 
 
