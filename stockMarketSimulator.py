@@ -8,11 +8,19 @@ class Company:
         # 'name' : String ; Represents name of the company.
         # 'price' : Float ; Initial Public Offering price of the stock.
         # 'volume' : Integer ; Unit share the company is willing to offer.
-        # 'holders' : List [AlphaNumeric] ; Unique identifiers of each trader who currently owns the stake of the firm. 
+        # 'holders' : List [AlphaNumeric] ; Unique identifiers of each trader who currently owns the stake of the firm.
+        # 'lock' : Boolean ; For conurrency control. 
         self.name=name
         self.price=price
         self.volume=volume
-        self.holders=[]   
+        self.holders=[]
+        self.lock=False
+    def getLock(self):
+        if self.lock == False:
+            self.lock=True
+    def releaseLock(self):
+        if self.lock == True:
+            self.lock=False 
 
 class StockMarket(gym.Env):
     '''
@@ -125,6 +133,17 @@ class StockMarket(gym.Env):
                 for j in range(len(self.held_volume[id])):
                     total+=i.price * self.held_volume[id][j][1] 
         return total
+    def lockStatus(self,name):
+        # 'name' : String ; Name of the firm whose observation is intended by the user.
+        '''
+        Checks the value of lock variable associated with corresponding asset for which agent has issued a trade order. 
+        Returns : Boolean ; The status of lock variable.
+        '''
+        for i in self.firms:
+            if i.name==name:
+                if i.lock==True:
+                    return True
+        return False
     def reward_function(self,id):
         # 'id' : AlphaNumeric ; The unique identifier of the trader.
         '''
@@ -143,7 +162,16 @@ class StockMarket(gym.Env):
         'sim_time' or any of the traders becomes bankrupt.
         Returns : List, Float, Boolean, Dictionary ; Observation, reward , halting status and status of action.  
         '''
-        status=self.take_action(action,id,name)
+        if self.lockStatus(name):
+            status=False
+        else:
+            for i in self.firms:
+                if i.name==name:
+                    i.getLock()
+            status=self.take_action(action,id,name)
+            for i in self.firms:
+                if i.name==name:
+                    i.releaseLock()
         self.update_prices()
         reward=self.reward_function(id)
         obs=self.next_observation()
