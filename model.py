@@ -2,7 +2,8 @@
 policy : state -> action ; The policy is the strategy to make moves based on the observations it makes about
 the environment.
 
-Time series forecasting models are models that can anticipate input space with 
+Time series forecasting models are models that can anticipate input space with tempoal dimension/dependency. Most common ones are LSTM 
+and CNN. 
 
 Q-Learning is the method through which an optimal policy is learned by optimizing the 'Q' value associated with
 the policy adopted. Provided markov property is adhered i.e. states are unique & distinguishable and future states
