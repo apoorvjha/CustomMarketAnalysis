@@ -45,4 +45,4 @@ Following are possible ways which one can use to run the simulator :
 	2. Alternatively, the same code as part 1b can be written at the end of the file stockMarketSimulator.py excluding the import part and droping the prefix "sim.". The updated code an then be executed as below,
 	$python3 stockMarketSimulator.py
 # Note : The Snippet described here is provide as a seperte file as test_code.py for instances if you do not want to go through pain of writing one for yourself. 
-
+#Note : The Simulator is modified to incorporat concurrency control by using lock on the asset untill the transaction/trade order has been completed.
