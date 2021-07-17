@@ -1,5 +1,8 @@
 import stockMarketSimulator as sim
 from random import randint
+import RL_Agent as trader
+from numpy import argmax. array
+import numpy as np
 if __name__=='__main__':
 	n=int(input("Enter number of entities : "))
 	companies=[]
@@ -14,11 +17,23 @@ if __name__=='__main__':
 	n_users=int(input("Enter the number of users : "))
 	for i in range(n_users):
 		seed=float(input(f"Enter the amount of {i+1} user's investment : "))
-		users.append(market.register(seed))
-	done=market.reset()
-	while(not done):
-		market.render()
-		action=market.action_space.sample()
-		id=users[randint(0,len(users)-1)]
-		firm=companies[randint(0,len(companies)-1)].name
-		obs, reward, done, info=market.step(action,id,firm)
+		users.append(trader.Agent((len(companies),2),len(companies)*3,market.register(seed)))
+	n_episodes=200
+	for episode in range(n_episodes):
+		done=market.reset()
+		reward_aggregate=[]
+		while(not done):
+			market.render()
+			uid=randint(0,len(users)-1)
+			user=users[idx]
+			obs=market.next_observation()
+			action_firm=argmax(user.selectAction(obs))
+			action=action_firm % 3
+			firm=companies[action_firm % len(companies)]
+			new_obs, reward, done, info=market.step(action,user.id,firm)
+			reward_aggregate.append(reward)
+			users[idx].update_memory(obs,action,reward,new_obs,done)
+			for user in users:
+				user.optimize(episode)
+		if episode % 20 == 0:
+			print(f"[+] Average reward {episode+1}/{n_episodes} = {np.sum(array(reward_aggregate))/episode+1}")
