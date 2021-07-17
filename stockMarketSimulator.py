@@ -236,7 +236,7 @@ class StockMarket(gym.Env):
         Curated policy to update price of each firms shares.
         '''
         for i in self.firms:
-            i.price += exp(-1 * i.price / self.index) * (random() * len(i.holders)/len(self.invester)) - random() / self.index
+            i.price += exp(-1 * i.price / self.index) * (random() * len(i.holders)/len(self.invester)+1) - random() / self.index + random() / self.index
     def render(self):
         '''
         Renders the state of the stock market after every iteration of trade.
