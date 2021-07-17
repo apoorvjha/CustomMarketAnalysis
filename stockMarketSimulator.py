@@ -117,9 +117,12 @@ class StockMarket(gym.Env):
         '''
         obs=[]
         if name == None : 
-            obs.append([i.price,i.volume] for i in self.firms)
+            for i in self.firms:
+                obs.append([i.price,i.volume]) 
         else:
-            obs.append([i.price,i.volume] for i in self.firms if i.name==name)
+            for i in self.firms:
+                if i.name==name:
+                    obs.append([i.price,i.volume])
         return obs
     def asset_balance(self,id):
         # 'id' : AlphaNumeric ; The unique identifier of the trader.
