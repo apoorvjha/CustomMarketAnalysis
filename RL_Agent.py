@@ -79,14 +79,14 @@ class Agent:
         self.EPSILON_END=0.05
         self.EPSILON_DECAY=200
         #-----------------------------------------------------------#
-        self.TARGET_UPDATE=20
+        self.TARGET_UPDATE=10
         self.action_space=n_output
         '''
         The TARGET_VALUE is number of episodes after which the weights and biases of target network
         to be set as same as that of policy network. This provides stability to the model as 
         suggested in orignal DQN paper.
         '''
-        self.MEMORY_SIZE=50000       # Experience replay memory capacity.
+        self.MEMORY_SIZE=10000       # Experience replay memory capacity.
         MODEL=DQN(input_shape,n_output)
         self.policy_net=MODEL.getModelInstance()
         self.target_net=MODEL.getModelInstance()
