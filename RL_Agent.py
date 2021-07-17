@@ -64,7 +64,7 @@ class DQN:
             self.model.add(Dense(16,activation='relu'))
             self.model.add(Dropout(0.2))
             self.model.add(Dense(n_output))
-        self.model.compile(optimizer=Adam(learning_rate=1e-6),loss='huber',metrics=['mse'])
+        self.model.compile(optimizer=Adam(learning_rate=1e-3),loss='huber',metrics=['mse'])
     def getModelInstance(self):
         return self.model
 
@@ -77,7 +77,7 @@ class Agent:
         # ---------- Epsilon greedy strategy variables -------------#
         self.EPSILON_START=0.9       
         self.EPSILON_END=0.05
-        self.EPSILON_DECAY=2000
+        self.EPSILON_DECAY=200
         #-----------------------------------------------------------#
         self.TARGET_UPDATE=10
         self.action_space=n_output
