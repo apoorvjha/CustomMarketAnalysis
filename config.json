@@ -1,0 +1,25 @@
+{
+	"n_entities" : 5,
+	"entities" : [
+		{"name" : "A", "price" : 10, "volume" : 1000},
+		{"name" : "B", "price" : 50, "volume" : 700},
+		{"name" : "C", "price" : 2, "volume" : 10000},
+		{"name" : "D", "price" : 100, "volume" : 200},
+		{"name" : "E", "price" : 5, "volume" : 4000}
+	],
+	"simulaton_time" : 200,
+	"n_users" : 10,
+	"users" : [
+		{"seed" : 1000},
+		{"seed" : 900},
+		{"seed" : 12000},
+		{"seed" : 5700},
+		{"seed" : 200},
+		{"seed" : 1560},
+		{"seed" : 1080},
+		{"seed" : 12560},
+		{"seed" : 90120},
+		{"seed" : 800}
+	],
+	"n_episodes" : 2000
+}
