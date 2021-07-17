@@ -77,7 +77,7 @@ class Agent:
         # ---------- Epsilon greedy strategy variables -------------#
         self.EPSILON_START=0.9       
         self.EPSILON_END=0.05
-        self.EPSILON_DECAY=200
+        self.EPSILON_DECAY=2000
         #-----------------------------------------------------------#
         self.TARGET_UPDATE=10
         self.action_space=n_output
