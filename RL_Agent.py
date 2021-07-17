@@ -64,7 +64,7 @@ class DQN:
             self.model.add(Dense(16,activation='relu'))
             self.model.add(Dropout(0.2))
             self.model.add(Dense(n_output))
-        self.model.compile(optimizer=Adam(lr=1e-3),loss='huber',metrics=['mse'])
+        self.model.compile(optimizer=Adam(learning_rate=1e-6),loss='huber',metrics=['mse'])
     def getModelInstance(self):
         return self.model
 
