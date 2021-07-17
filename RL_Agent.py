@@ -1,16 +1,18 @@
 from collections import namedtuple, deque
-from random import sample, random
+from random import sample, random, randint
 from math import exp
+from numpy import array
+import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv1D, MaxPool1D, LSTM, Dropout, Flatten, Dense
 from tensorflow.keras.optimizers import Adam
-
+import stockMarketSimulator as sim
 
 '''
 State_Transition is structured way to store the state transiton of the environment and the
 corresponding reward received in due course of action.
 '''
-State_Transition=namedtuple('Transition',('Current_State','Action','Reward','Next_State'))
+State_Transition=namedtuple('Transition',('Current_State','Action','Reward','Next_State','done'))
 
 class Experience:
     '''
@@ -21,8 +23,8 @@ class Experience:
     '''
     def __init__(self,capacity):
         self.memory=deque([],maxlen=capacity)
-    def see(self,*args):
-        self.memory.append(State_Transition(*args))
+    def see(self,transition):
+        self.memory.append(transition)
     def sample(self,batch_size):
         return sample(self.memory,batch_size)
     def __len__(self):
@@ -67,7 +69,8 @@ class DQN:
 
 
 class Agent:
-    def __init__(self,input_shape,n_output):
+    def __init__(self,input_shape,n_output,id):
+        self.id=id
         self.GAMMA=0.999             # The discount factor for normalizing future reward.
         self.BATCH_SIZE=32           # The chunk of states provisioned randomly for training.
         # ---------- Epsilon greedy strategy variables -------------#
@@ -76,37 +79,51 @@ class Agent:
         self.EPSILON_DECAY=200
         #-----------------------------------------------------------#
         self.TARGET_UPDATE=10
+        self.action_space=n_output
         '''
         The TARGET_VALUE is number of episodes after which the weights and biases of target network
         to be set as same as that of policy network. This provides stability to the model as 
         suggested in orignal DQN paper.
         '''
         self.MEMORY_SIZE=50000       # Experience replay memory capacity.
-        self.policy_net=DQN(input_shape,n_output)
-        self.target_net=DQN(input_shape,n_output)
+        MODEL=DQN(input_shape,n_output)
+        self.policy_net=MODEL.getModelInstance()
+        self.target_net=MODEL.getModelInstance()
         self.target_net.set_weights(self.policy_net.get_weights())
         self.memory=Experience(self.MEMORY_SIZE)
         self.time_step=0
 
-    def selectAction(self,action_space):
+    def selectAction(self,state):
         EPSILON_THRESHOLD=self.EPSILON_END + (self.EPSILON_START - self.EPSILON_END) * exp(-1 * self.time_step / EPSILON_DECAY)
         self.time_step+=1
         if random() > EPSILON_THRESHOLD:
             # Exploitation
-            return self.policy_net.predict(state)
+            return self.policy_net.predict(state)[0]
         else:
             # Exploration
-            return choice(action_space)
-    def optimize(self):
+            return randint(0,self.action_space)
+    def optimize(self,episode_number):
         if len(self.memory) < self.BATCH_SIZE:
             return
-        transitions=memory.sample(self.BATCH_SIZE)
-        
-
-
-
-
-
-
-
-
+        transitions=self.memory.sample(self.BATCH_SIZE)
+        current_states=array([transition[0] for transition in transitions])
+        current_q_values=self.policy_net.predict(current_states)
+        new_states=array([transition[3] for transition in transitions])
+        future_q_values=self.target_net.predict(new_states)
+        X=[]
+        Y=[]
+        for index,(Current_State,Action,Reward,Next_State,done) in enumerate(transitions):
+            if not done:
+                max_future_q=np.max(future_q_values[index])
+                new_q=Reward + self.GAMMA * max_future_q
+            else:
+                new_q=Reward
+            current_q_value=current_q_values[index]
+            current_q_value[Action]=new_q
+            X.append(current_state)
+            Y.append(current_q_value)
+        self.policy_net.fit(array(X),array(Y),batch_size=self.BATCH_SIZE,verbose=0,shuffle=False)
+        if episode_number % self.TARGET_UPDATE == 0:
+            self.target_net.set_weights(self.policy_net.get_weights())
+    def update_memory(self,state,action,reward,next_state,done):
+        self.memory.see((state, action, reward,next_state,done))
