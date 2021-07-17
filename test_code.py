@@ -4,6 +4,7 @@ import RL_Agent as trader
 from numpy import argmax, array
 import numpy as np
 from json import load
+
 if __name__=='__main__':
 	companies=[]
 	users=[]
@@ -15,10 +16,11 @@ if __name__=='__main__':
 	n_users=config['n_users']
 	investers=config['users']
 	n_episodes=config['n_episodes']
+	market=sim.StockMarket(companies,simulation_time)
 	for i in entities:
 		companies.append(sim.Company(i["name"],float(i["price"]),int(i["volume"])))
 	for i in investers:
-		users.append(trader.Agent((n_entities,2),n_entities*3,market.register(i["seed"])))
+		users.append(trader.Agent((n_entities,2),n_entities*3,market.register(float(i["seed"]))))
 	for episode in range(n_episodes):
 		done=market.reset()
 		reward_aggregate=[]
