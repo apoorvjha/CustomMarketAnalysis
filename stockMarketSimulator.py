@@ -15,13 +15,19 @@ class Company:
         self.volume=volume
         self.holders=[]
         self.lock=False
+        self.init_price=self.price
+        self.init_volume=self.volume
     def getLock(self):
         if self.lock == False:
             self.lock=True
     def releaseLock(self):
         if self.lock == True:
             self.lock=False 
-
+    def reset(self):
+        self.price=self.init_price
+        self.volume=self.init_volume
+        self.holders=[]
+        self.lock=False
 class StockMarket(gym.Env):
     '''
     Multi-Agent (More than one agent can interact simultaneously) 
@@ -57,8 +63,8 @@ class StockMarket(gym.Env):
             self.n_firms+=1
         self.action_space=gym.spaces.Discrete(self.n_actions)
         self.observation_space=gym.spaces.Box(low=array([-inf,0]),high=array([inf,inf]),dtype=float64)
-        self.init_price_vector=[i.price for i in self.firms]
-        self.init_vol_vector=[i.volume for i in self.firms]
+        #self.init_price_vector=[i.price for i in self.firms]
+        #self.init_vol_vector=[i.volume for i in self.firms]
     def reset(self):
         '''
         The 'price' and 'holders' list of each 'Company' object in 'firms' list will be set to the initial_price_vector and
@@ -67,11 +73,8 @@ class StockMarket(gym.Env):
         The balance of each trader is set to the initial 'investment' of that trader.
         Returns : Boolean ; This value is used to denote the 'done' value which is used for halting the simulation.   
         '''
-        for i,j,k in zip(self.firms,self.init_price_vector,self.init_vol_vector):
-            i.price=j
-            i.holders=[]
-            i.volume=k
-            i.lock=False
+        for i in self.firms:
+            i.reset()
         self.index=1
         self.held_volume={}
         for i in self.investment.keys():
