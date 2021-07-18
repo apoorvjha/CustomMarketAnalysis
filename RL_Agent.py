@@ -103,7 +103,7 @@ class Agent:
         else:
             # Exploration
             return randint(0,self.action_space)
-    def optimize(self,episode_number):
+    def optimize(self,episode_number,done):
         if len(self.memory) < self.BATCH_SIZE:
             print("Memory instances insuffcient for training!")
             return
@@ -125,7 +125,7 @@ class Agent:
             X.append(Current_State)
             Y.append(current_q_value)
         self.policy_net.fit(array(X),array(Y),batch_size=self.BATCH_SIZE,verbose=0,shuffle=False)
-        if episode_number % self.TARGET_UPDATE == 0:
+        if episode_number % self.TARGET_UPDATE == 0 and done:
             self.target_net.set_weights(self.policy_net.get_weights())
     def update_memory(self,state,action,reward,next_state,done):
         self.memory.see((state, action, reward,next_state,done))
