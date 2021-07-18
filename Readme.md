@@ -1,5 +1,5 @@
-				Phases of the project
-# Brainstorming 
+				      					# Phases of the project
+## Brainstorming 
 The end result of this project is an Algorithmic trading bot that can make optimal/sub-optimal trading decisions in the inhouse simulated environment. The simulated stock market is created using the data that dynamically gets generated based on the actions of the agents and random fluctuations coded into the price update policy. 
 
 The bot will be trainned using Reinforcement learning paradigm which allows for optimization of actions based on the reward received from the simulator. 
@@ -10,7 +10,7 @@ The simulator is planned to be developed in such a way that it can be beneficial
 
 For the sake of experimentation I will be incorporating some subset of RL as well as some other timeseries forecasting models into the test so as to benchmark the RL baed solution with respect to traditional models.
 
-# Simulator
+## Simulator
 The open AI gym library is used as blueprint for our simulator and former is inherited in the later. The Entities/Assets of the market is defined in Company class. The list of such Company class objects will be passed into the the StockMarket class. The later is capable of maneuvering the asset's price in the market based on the curated price update policy which can be tweaked to change the nature of the market. In my perception I have adoped the policy of overall progressing market with certain random fluctions exploded with respect to the number of trading agents. This inherently simulates inflation. The reaward which a trader receives is also curated and is subjective decision of the person using this simulator. The reward heavily supports liquidity as asset valuation and diference between initial investment and balance amount arethe key factors for the same.
 Following are possible ways which one can use to run the simulator : 
 	1. Imporing the code.
