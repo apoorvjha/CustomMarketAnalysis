@@ -37,6 +37,6 @@ if __name__=='__main__':
 			reward_aggregate.append(reward)
 			users[uid].update_memory(array(obs),action_firm,reward,array(new_obs),done)
 			for user in users:
-				user.optimize(episode+1)
+				user.optimize(episode+1,done)
 		if episode % 20 == 0:
 			print(f"[+] Average reward {episode+1}/{n_episodes} = {np.sum(array(reward_aggregate))/episode+1}")
