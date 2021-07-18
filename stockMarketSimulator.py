@@ -71,6 +71,7 @@ class StockMarket(gym.Env):
             i.price=j
             i.holders=[]
             i.volume=k
+            i.lock=False
         self.index=1
         self.held_volume={}
         for i in self.investment.keys():
