@@ -25,7 +25,7 @@ if __name__=='__main__':
 		done=market.reset()
 		reward_aggregate=[]
 		while(not done):
-			#market.render()
+			market.render()
 			uid=randint(0,len(users)-1)
 			user=users[uid]
 			obs=market.next_observation()
