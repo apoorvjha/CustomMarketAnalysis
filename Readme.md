@@ -1,4 +1,4 @@
-				      					# Phases of the project
+				      				# Phases of the project
 ## Brainstorming 
 The end result of this project is an Algorithmic trading bot that can make optimal/sub-optimal trading decisions in the inhouse simulated environment. The simulated stock market is created using the data that dynamically gets generated based on the actions of the agents and random fluctuations coded into the price update policy. 
 
