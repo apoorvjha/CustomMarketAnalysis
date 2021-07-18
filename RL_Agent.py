@@ -105,7 +105,7 @@ class Agent:
             return randint(0,self.action_space)
     def optimize(self,episode_number,done):
         if len(self.memory) < self.BATCH_SIZE:
-            print("Memory instances insuffcient for training!")
+            #print("Memory instances insuffcient for training!")
             return
         transitions=self.memory.sample(self.BATCH_SIZE)
         current_states=array([transition[0] for transition in transitions])
