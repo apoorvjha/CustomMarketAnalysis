@@ -25,18 +25,18 @@ if __name__=='__main__':
 		done=market.reset()
 		reward_aggregate=[]
 		while(not done):
-			market.render()
+			#market.render()
 			uid=randint(0,len(users)-1)
 			user=users[uid]
 			obs=market.next_observation()
 			action_firm=argmax(user.selectAction(array(obs).reshape(1,len(companies),-1)))
 			action=action_firm % 3
 			firm=companies[action_firm % len(companies)].name
-			print(f"user={uid}; action={action} ; firm={firm}")
+			#print(f"user={uid}; action={action} ; firm={firm}")
 			new_obs, reward, done, info=market.step(action,user.id,firm)
 			reward_aggregate.append(reward)
 			users[uid].update_memory(array(obs),action_firm,reward,array(new_obs),done)
 			for user in users:
 				user.optimize(episode+1,done)
-		if episode % 20 == 0:
+		if episode+1 % 5 == 0:
 			print(f"[+] Average reward {episode+1}/{n_episodes} = {np.sum(array(reward_aggregate))/episode+1}")
