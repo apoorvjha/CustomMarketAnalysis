@@ -29,7 +29,7 @@ if __name__=='__main__':
 			uid=randint(0,len(users)-1)
 			user=users[uid]
 			obs=market.next_observation()
-			action_firm=argmax(user.selectAction(array(obs).reshape(1,len(companies),-1)))
+			action_firm=argmax(user.selectAction(array(obs).reshape(-1,n_entities,2)))
 			action=action_firm % 3
 			firm=companies[action_firm % len(companies)].name
 			#print(f"user={uid}; action={action} ; firm={firm}")
