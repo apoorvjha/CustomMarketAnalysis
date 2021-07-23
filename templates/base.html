@@ -1,0 +1,63 @@
+<!doctype html>  <!-- instructs the browser to render this page as HTML5 -->
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"/>-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="static/css/index.css">
+<link rel="shortcut icon" href="static/SUPPORT_PIC/logo.jpeg" /> <!-- For setting custom mini icon on the title tab of web page -->
+<script src="static/js/index.js"></script>
+
+<title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+{% with messages=get_flashed_messages(with_categories=True) %}
+	{% if messages %}
+		{% for category,message in messages %}
+			<div class="{{ category }}" id="{{ category }}">
+				{{ message }}			
+			</div>
+		{% endfor %}
+	{% endif %}
+{% endwith %}
+
+        {% block header %} 
+            <!-- Nav bar for the website-->
+            <nav class="navbar navbar-inverse" height="100px.">
+                <div class="container-fluid">
+                  <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ url_for('analytics_portal') }}">Capital Market Simulator</a>
+                  </div>
+                  <div class="collapse navbar-collapse" id="myNavbar">
+                        <ul class="nav navbar-nav">
+                      <li><a href="{{ url_for('about') }}">About</a></li>
+                      <li><a href="{{ url_for('analytics_portal') }}">Analysis Pannel</a></li>
+                        </ul>
+                  </div>
+                </div>
+              </nav>
+
+
+
+        {% endblock %}
+
+        {% block mainbody %}
+
+        {% endblock %}
+
+        {% block footer %}
+            
+        {% endblock %}
+
+
+    </body>
+    </html>
