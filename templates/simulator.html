@@ -3,7 +3,7 @@
 {% block mainbody %}
 <div class="">
     <center>
-        <form method="post" action="analyze" onSubmit="return validate();">
+        <form method="post" action="analyze">
             <table> 
                 <tr>
                 <td style="text-align:center"><label> <font color="white">Number of Entities : </font></label></td><td><input type="number" id="n_entities" name="n_entities" onChange="loadEntity()" required></td><td><small id="n_entity" class="text-muted">
@@ -24,7 +24,7 @@
                 </tr>
                 <tr>
                     <td style="text-align:center"><label> <font color="white">Number of Episodes : </font></label></td><td><input type="number" id="n_episode" name="n_episode" required></td><td><small id="n_episodes" class="text-muted">
-                    <font color="blue">The number of timesteps upto which the single simulation episode will last.</font>
+                    <font color="blue">The number of episodes the simulation needs to be executed.</font>
                     </span></td>
                 </tr> 
                 <tr>
