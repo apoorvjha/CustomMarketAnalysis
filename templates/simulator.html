@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Analytics Portal {% endblock %}
+{% block mainbody %}
+<div class="">
+    <center>
+        <form method="post" action="analyze" onSubmit="return validate();">
+            <table> 
+                <tr>
+                <td style="text-align:center"><label> <font color="white">Number of Entities : </font></label></td><td><input type="number" id="n_entities" name="n_entities" onChange="loadEntity()" required></td><td><small id="n_entity" class="text-muted">
+                    <font color="blue">The catch is, More the number of entities selected more will be computation load.</font>
+                    </span></td>
+                </tr>
+                <span id="entity"></span>
+                <tr>
+                    <td style="text-align:center"><label> <font color="white">Number of Users : </font></label></td><td><input type="number" id="n_users" name="n_users" onChange="loadUsers()" required></td><td><small id="n_users" class="text-muted">
+                    <font color="blue">The number of users dictates the competetion in the market although imposes computation load.</font>
+                    </span></td>
+                </tr>            
+                <span id="user"></span>
+                <tr>
+                    <td style="text-align:center"><label> <font color="white">Simulation time : </font></label></td><td><input type="number" id="sim_time" name="sim_time" required></td><td><small id="sim_times" class="text-muted">
+                    <font color="blue">The number of timesteps upto which the single simulation episode will last.</font>
+                    </span></td>
+                </tr>
+                <tr>
+                    <td style="text-align:center"><label> <font color="white">Number of Episodes : </font></label></td><td><input type="number" id="n_episode" name="n_episode" required></td><td><small id="n_episodes" class="text-muted">
+                    <font color="blue">The number of timesteps upto which the single simulation episode will last.</font>
+                    </span></td>
+                </tr> 
+                <tr>
+                    <td></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;<input type="submit" value="Deploy" class="activate">&nbsp;
+                    &nbsp;&nbsp;&nbsp;<input type="reset" value="reset" class="deactivate"></td>
+                    </tr>
+                    </table>                   
+        </form>
+    </center>
+</div>
+{% endblock %}
