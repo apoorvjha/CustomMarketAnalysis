@@ -40,3 +40,41 @@ if __name__=='__main__':
 				user.optimize(episode+1,done)
 		if episode+1 % 5 == 0:
 			print(f"[+] Average reward {episode+1}/{n_episodes} = {np.sum(array(reward_aggregate))/episode+1}")
+def driver(conf_file_name):
+	companies=[]
+	users=[]
+	with open(conf_file_name,'r') as conf:
+		config=load(conf)
+	n_entities=config['n_entities']
+	entities=config['entities']
+	simulation_time=config['simulaton_time']
+	n_users=config['n_users']
+	investers=config['users']
+	n_episodes=config['n_episodes']
+	market=sim.StockMarket(companies,simulation_time)
+	reward_aggregate=[]
+	for i in entities:
+		companies.append(sim.Company(i["name"],float(i["price"]),int(i["volume"])))
+	for i in investers:
+		users.append(trader.Agent((n_entities,2),n_entities*3,market.register(float(i["seed"]))))
+	for episode in range(n_episodes):
+		done=market.reset()
+		time_reward_aggregate=[]
+		while(not done):
+			market.render()
+			uid=randint(0,len(users)-1)
+			user=users[uid]
+			obs=market.next_observation()
+			action_firm=argmax(user.selectAction(array(obs).reshape(-1,n_entities,2)))
+			action=action_firm % 3
+			firm=companies[action_firm % len(companies)].name
+			#print(f"user={uid}; action={action} ; firm={firm}")
+			new_obs, reward, done, info=market.step(action,user.id,firm)
+			users[uid].update_memory(array(obs),action_firm,reward,array(new_obs),done)
+			temp=[]
+			for user in users:
+				temp.append()
+				user.optimize(episode+1,done)
+			time_reward_aggregate.append(temp)
+		reward_aggregate.append(time_reward_aggregate)
+	return reward_aggregate
