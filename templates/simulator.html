@@ -3,36 +3,33 @@
 {% block mainbody %}
 <div class="">
     <center>
-        <form method="post" action="analyze">
-            <table> 
-                <tr>
-                <td style="text-align:center"><label> <font color="white">Number of Entities : </font></label></td><td><input type="number" id="n_entities" name="n_entities" onChange="loadEntity()" required></td><td><small id="n_entity" class="text-muted">
+        <form method="post" action="analyze" onSubmit="submit()">
+                <label> <font color="white">Number of Entities : </font></label><input type="number" id="n_entities" name="n_entities" onChange="loadEntity()" required><small id="n_entity" class="text-muted">
                     <font color="blue">The catch is, More the number of entities selected more will be computation load.</font>
-                    </span></td>
-                </tr>
-                <span id="entity"></span>
-                <tr>
-                    <td style="text-align:center"><label> <font color="white">Number of Users : </font></label></td><td><input type="number" id="n_users" name="n_users" onChange="loadUsers()" required></td><td><small id="n_users" class="text-muted">
+                    </small><br>
+                <span id="entity">
+
+                    <!-- In this block, the number of blocks for entities will be appended -->
+                </span><br>
+                <label> <font color="white">Number of Users : </font></label><input type="number" id="n_users" name="n_users" onChange="loadUsers()" required><small id="n_user" class="text-muted">
                     <font color="blue">The number of users dictates the competetion in the market although imposes computation load.</font>
-                    </span></td>
-                </tr>            
-                <span id="user"></span>
-                <tr>
-                    <td style="text-align:center"><label> <font color="white">Simulation time : </font></label></td><td><input type="number" id="sim_time" name="sim_time" required></td><td><small id="sim_times" class="text-muted">
+                    </small>
+                <br>            
+                <span id="user">
+                    <!-- In this block, the number of blocks for users will be appended -->
+                </span>
+                <br>
+                    <label> <font color="white">Simulation time : </font></label><input type="number" id="sim_time" name="sim_time" required><small id="sim_times" class="text-muted">
                     <font color="blue">The number of timesteps upto which the single simulation episode will last.</font>
-                    </span></td>
-                </tr>
-                <tr>
-                    <td style="text-align:center"><label> <font color="white">Number of Episodes : </font></label></td><td><input type="number" id="n_episode" name="n_episode" required></td><td><small id="n_episodes" class="text-muted">
+                    </small>
+                <br>
+                    <label> <font color="white">Number of Episodes : </font></label><input type="number" id="n_episode" name="n_episode" required><small id="n_episodes" class="text-muted">
                     <font color="blue">The number of episodes the simulation needs to be executed.</font>
-                    </span></td>
-                </tr> 
-                <tr>
-                    <td></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;<input type="submit" value="Deploy" class="activate">&nbsp;
-                    &nbsp;&nbsp;&nbsp;<input type="reset" value="reset" class="deactivate"></td>
-                    </tr>
-                    </table>                   
+                    </small> 
+                <br>
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   &nbsp;&nbsp;&nbsp;<input type="submit" value="Deploy" class="activate">&nbsp;
+                &nbsp;&nbsp;&nbsp;<input type="reset" value="reset" class="deactivate">                   
         </form>
     </center>
 </div>
