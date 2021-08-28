@@ -296,6 +296,44 @@ class StockMarket(gym.Env):
                 print(end=" ")
             print("|   ",round(self.asset_balance(col),3))
         print()
+    def renderUI(self):
+        data=""
+        data+="<br><hr><h2>"+f"# Iteration : {self.index}"+"</h2><br>"
+        data+="<hr><center><h3>Market Metadata</h3></center></hr><br>"
+        data+="<table>"
+        data+="<tr>"
+        data+="<th>Company Name</th>"
+        data+="<th>Price</th>"
+        data+="<th>Volume</th>"
+        data+="<th>Number of Holders</th>"
+        data+="</tr>"
+        for col in self.firms:
+            data+="<tr>"
+            data+=f"<td>{col.name}</td>"
+            data+=f"<td>{round(col.price,3)}</td>"
+            data+=f"<td>{round(col.volume,3)}</td>"
+            data+=f"<td>{len(col.holders)}</td>"
+            data+="</tr>"
+        data+="</table>"
+        data+="<hr><center><h3>Player Metadata</h3></center></hr><br>"
+        data+="<table>"
+        data+="<tr>"
+        data+="<th>Invester ID</th>"
+        data+="<th>Seed</th>"
+        data+="<th>Cash Balance</th>"
+        data+="<th>Asset Balance</th>"
+        data+="</tr>"
+        for col in self.investment.keys():
+            data+="<tr>"
+            data+=f"<td>{col}</td>"
+            data+=f"<td>{round(self.investment[col],3)}</td>"
+            data+=f"<td>{round(self.balance[col],3)}</td>"
+            data+=f"<td>{self.asset_balance(col)}</td>"
+            data+="</tr>"
+        data+="</table>"
+        data+="<br>"
+        return data
+
 
 
 
