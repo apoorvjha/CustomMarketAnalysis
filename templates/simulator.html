@@ -1,36 +1,36 @@
 {% extends 'base.html' %}
 {% block title %}Analytics Portal {% endblock %}
 {% block mainbody %}
-<div class="">
-    <center>
+<div class="config">
         <form method="post" action="analyze" onSubmit="submit()">
-                <label> <font color="white">Number of Entities : </font></label><input type="number" id="n_entities" name="n_entities" onChange="loadEntity()" required><small id="n_entity" class="text-muted">
+            <table>
+                <tr>
+                <td><label><font color="black">Number of Entities : </font></label></td><td><input type="number" id="n_entities" name="n_entities" onChange="loadEntity()" required></td><td><small id="n_entity" class="text-muted">
                     <font color="blue">The catch is, More the number of entities selected more will be computation load.</font>
-                    </small><br>
-                <span id="entity">
-
-                    <!-- In this block, the number of blocks for entities will be appended -->
-                </span><br>
-                <label> <font color="white">Number of Users : </font></label><input type="number" id="n_users" name="n_users" onChange="loadUsers()" required><small id="n_user" class="text-muted">
+                    </small></td></tr>
+                <tr><td><label> <font color="black">Number of Users : </font></label></td><td><input type="number" id="n_users" name="n_users" onChange="loadUsers()" required></td><td><small id="n_user" class="text-muted">
                     <font color="blue">The number of users dictates the competetion in the market although imposes computation load.</font>
-                    </small>
-                <br>            
-                <span id="user">
-                    <!-- In this block, the number of blocks for users will be appended -->
-                </span>
-                <br>
-                    <label> <font color="white">Simulation time : </font></label><input type="number" id="sim_time" name="sim_time" required><small id="sim_times" class="text-muted">
+                    </small></td>
+                </tr>            
+                <tr>
+                    <td><label> <font color="black">Simulation time : </font></label></td><td><input type="number" id="sim_time" name="sim_time" required></td><td><small id="sim_times" class="text-muted">
                     <font color="blue">The number of timesteps upto which the single simulation episode will last.</font>
-                    </small>
-                <br>
-                    <label> <font color="white">Number of Episodes : </font></label><input type="number" id="n_episode" name="n_episode" required><small id="n_episodes" class="text-muted">
+                    </small></td>
+                </tr>
+                <tr>
+                    <td><label> <font color="black">Number of Episodes : </font></label></td><td><input type="number" id="n_episode" name="n_episode" required></td><td><small id="n_episodes" class="text-muted">
                     <font color="blue">The number of episodes the simulation needs to be executed.</font>
-                    </small> 
+                    </small></td> 
+                </tr>
+                </table>
                 <br>
-                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                   &nbsp;&nbsp;&nbsp;<input type="submit" value="Deploy" class="activate">&nbsp;
-                &nbsp;&nbsp;&nbsp;<input type="reset" value="reset" class="deactivate">                   
+                <div id="entity"></div>
+                <br>
+                <div id="user"></div>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;<input type="submit" value="Deploy" class="activate">&nbsp;
+                &nbsp;&nbsp;&nbsp;<input type="reset" value="Reset" class="deactivate">                   
         </form>
-    </center>
 </div>
 {% endblock %}
