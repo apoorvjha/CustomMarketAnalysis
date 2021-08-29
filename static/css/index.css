@@ -1,3 +1,102 @@
 body{
-    background-color: burlywood;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    background: url(../SUPPORT_PIC/background.jpg);
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: 100% 100%; 
+    background-attachment: fixed;
+}
+
+.profile{
+    height : 50px;
+    width : 50px;
+    border : 1px solid black;
+    border-radius : 50px;
+}
+.deactivate{
+    background-color : red;
+    color : white;
+    border : 1px solid black;
+    border-radius : 10px;
+    height : 30px;
+}
+.activate{
+    background-color : blue;
+    color : white;
+    border : 1px solid black;
+    border-radius : 10px;
+    height : 30px;
+}
+table{
+    border : 1px solid black;
+    border-collapse: separate;
+    border-spacing: 15px;
+    background-color: white;
+}
+th {
+    background-color: blue;
+    font-weight: bold;
+    font-size: 10px;
+    padding: 10px;
+}
+tr{
+    background-color: white;
+    padding: 18px;
+}
+.pre_model_plot{
+    border : 1px solid black;
+    border-radius: 5px;
+}
+#predictor{
+    font-family: cursive;
+}
+#target{
+    font-family: cursive;
+}
+.post_model_plot{
+    border : 1px solid black;
+    border-radius: 5px;
+}
+form{
+    border-radius: 5px;
+    margin: 10px;
+    padding: 35px;
+    align-content: center; 
+}
+label{
+    font-weight: bold;
+    font-size: 15px;
+}
+h1{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+input[type=text]:focus {
+    background-color: lightblue;
+    border: 3px solid #555;
+  }
+.desc{
+    font-size: 20px;
+}
+.about{
+    background-color :antiquewhite;
+    margin : 10px; 
+}
+.analysis_report{
+    background-color :antiquewhite;
+    margin : 10px;
+    font-weight: bold;
+    font-size: 20px;
+}
+hr{
+    border : 5px solid green;
+    border-radius: 5px;
+}
+#entity{
+    background-color: white;
+}
+#user{
+    background-color: white;
 }
