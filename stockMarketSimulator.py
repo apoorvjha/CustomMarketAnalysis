@@ -298,9 +298,9 @@ class StockMarket(gym.Env):
         print()
     def renderUI(self):
         data=""
-        data+="<br><hr><h2>"+f"# Iteration : {self.index}"+"</h2><br>"
-        data+="<hr><center><h3>Market Metadata</h3></center></hr><br>"
-        data+="<table>"
+        data+="<hr><br><h2>"+f"# Iteration : {self.index}"+"</h2><br>"
+        data+="<center><h2><u>Market Metadata</u></h2></center><br>"
+        data+="<center><table>"
         data+="<tr>"
         data+="<th>Company Name</th>"
         data+="<th>Price</th>"
@@ -314,9 +314,9 @@ class StockMarket(gym.Env):
             data+=f"<td>{round(col.volume,3)}</td>"
             data+=f"<td>{len(col.holders)}</td>"
             data+="</tr>"
-        data+="</table>"
-        data+="<hr><center><h3>Player Metadata</h3></center></hr><br>"
-        data+="<table>"
+        data+="</table></center>"
+        data+="<center><h2><u>Player Metadata</u></h2></center><br>"
+        data+="<center><table>"
         data+="<tr>"
         data+="<th>Invester ID</th>"
         data+="<th>Seed</th>"
@@ -328,9 +328,9 @@ class StockMarket(gym.Env):
             data+=f"<td>{col}</td>"
             data+=f"<td>{round(self.investment[col],3)}</td>"
             data+=f"<td>{round(self.balance[col],3)}</td>"
-            data+=f"<td>{self.asset_balance(col)}</td>"
+            data+=f"<td>{round(self.asset_balance(col),3)}</td>"
             data+="</tr>"
-        data+="</table>"
+        data+="</table></center>"
         data+="<br>"
         return data
 
