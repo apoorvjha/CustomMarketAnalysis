@@ -2,6 +2,7 @@ from random import choices,randint,random
 from string import ascii_lowercase, ascii_uppercase, digits  
 import gym
 from numpy import array,inf,exp,float64
+from matplotlib import pyplot as plt
 
 class Company:
     def __init__(self,name,price,volume):
@@ -73,6 +74,8 @@ class StockMarket(gym.Env):
         The balance of each trader is set to the initial 'investment' of that trader.
         Returns : Boolean ; This value is used to denote the 'done' value which is used for halting the simulation.   
         '''
+        self.dataset_firms={i.name : {"Price" : [],"Volume" : [],"Holders" : []} for i in self.firms}
+        self.dataset_trader={i : {"Cash_Balance" : [],"Asset_Balance" : []} for i in self.investment.keys() }
         for i in self.firms:
             i.reset()
         self.index=1
@@ -296,43 +299,83 @@ class StockMarket(gym.Env):
                 print(end=" ")
             print("|   ",round(self.asset_balance(col),3))
         print()
-    def renderUI(self):
-        data=""
-        data+="<hr><br><h2>"+f"# Iteration : {self.index}"+"</h2><br>"
-        data+="<center><h2><u>Market Metadata</u></h2></center><br>"
-        data+="<center><table>"
-        data+="<tr>"
-        data+="<th>Company Name</th>"
-        data+="<th>Price</th>"
-        data+="<th>Volume</th>"
-        data+="<th>Number of Holders</th>"
-        data+="</tr>"
+    def renderUI(self,mode="info"):
+        if mode=="debug":
+            data=""
+            data+="<hr><br><h2>"+f"# Iteration : {self.index}"+"</h2><br>"
+            data+="<center><h2><u>Market Metadata</u></h2></center><br>"
+            data+="<center><table>"
+            data+="<tr>"
+            data+="<th>Company Name</th>"
+            data+="<th>Price</th>"
+            data+="<th>Volume</th>"
+            data+="<th>Number of Holders</th>"
+            data+="</tr>"
+            for col in self.firms:
+                data+="<tr>"
+                data+=f"<td>{col.name}</td>"
+                data+=f"<td>{round(col.price,3)}</td>"
+                data+=f"<td>{round(col.volume,3)}</td>"
+                data+=f"<td>{len(col.holders)}</td>"
+                data+="</tr>"
+            data+="</table></center>"
+            data+="<center><h2><u>Player Metadata</u></h2></center><br>"
+            data+="<center><table>"
+            data+="<tr>"
+            data+="<th>Invester ID</th>"
+            data+="<th>Seed</th>"
+            data+="<th>Cash Balance</th>"
+            data+="<th>Asset Balance</th>"
+            data+="</tr>"
+            for col in self.investment.keys():
+                data+="<tr>"
+                data+=f"<td>{col}</td>"
+                data+=f"<td>{round(self.investment[col],3)}</td>"
+                data+=f"<td>{round(self.balance[col],3)}</td>"
+                data+=f"<td>{round(self.asset_balance(col),3)}</td>"
+                data+="</tr>"
+            data+="</table></center>"
+            data+="<br>"
+            for col in self.firms:
+                self.dataset_firms[col.name]["Price"].append(round(col.price,3))
+                self.dataset_firms[col.name]["Volume"].append(round(col.volume,3))
+                self.dataset_firms[col.name]["Holders"].append(len(col.holders))
+            for col in self.investment.keys():
+                self.dataset_trader[col]["Cash_Balance"].append(round(self.balance[col],3))
+                self.dataset_trader[col]["Asset_Balance"].append(round(self.asset_balance(col),3))
+            return data
+        elif mode=="info":
+            for col in self.firms:
+                self.dataset_firms[col.name]["Price"].append(round(col.price,3))
+                self.dataset_firms[col.name]["Volume"].append(round(col.volume,3))
+                self.dataset_firms[col.name]["Holders"].append(len(col.holders))
+            for col in self.investment.keys():
+                self.dataset_trader[col]["Cash_Balance"].append(round(self.balance[col],3))
+                self.dataset_trader[col]["Asset_Balance"].append(round(self.asset_balance(col),3))
+            return ""            
+        else:
+            return None
+    def plot(self,ep):
+        entity_frames=[]
+        agent_frames=[]
         for col in self.firms:
-            data+="<tr>"
-            data+=f"<td>{col.name}</td>"
-            data+=f"<td>{round(col.price,3)}</td>"
-            data+=f"<td>{round(col.volume,3)}</td>"
-            data+=f"<td>{len(col.holders)}</td>"
-            data+="</tr>"
-        data+="</table></center>"
-        data+="<center><h2><u>Player Metadata</u></h2></center><br>"
-        data+="<center><table>"
-        data+="<tr>"
-        data+="<th>Invester ID</th>"
-        data+="<th>Seed</th>"
-        data+="<th>Cash Balance</th>"
-        data+="<th>Asset Balance</th>"
-        data+="</tr>"
+            plt.xlabel("Price")
+            plt.ylabel("Holders")
+            plt.title(f"Price versus Holders for {col.name} entity")
+            plt.plot(self.dataset_firms[col.name]["Price"],self.dataset_firms[col.name]["Holders"],linewidth=2)
+            plt.savefig(f"./static/plots/{col.name}{ep}.png")
+            entity_frames.append(f"./static/plots/{col.name}{ep}.png")
+            plt.close()
         for col in self.investment.keys():
-            data+="<tr>"
-            data+=f"<td>{col}</td>"
-            data+=f"<td>{round(self.investment[col],3)}</td>"
-            data+=f"<td>{round(self.balance[col],3)}</td>"
-            data+=f"<td>{round(self.asset_balance(col),3)}</td>"
-            data+="</tr>"
-        data+="</table></center>"
-        data+="<br>"
-        return data
+            plt.xlabel("Cash_Balance")
+            plt.ylabel("Asset_Balance")
+            plt.title(f"Cash_Balance versus Asset_Balance for {col} agent")
+            plt.plot(self.dataset_trader[col]["Cash_Balance"],self.dataset_trader[col]["Asset_Balance"],linewidth=2)
+            plt.savefig(f"./static/plots/{col}{ep}.png")
+            agent_frames.append(f"./static/plots/{col}{ep}.png")
+            plt.close()
+        return entity_frames,agent_frames
+
 
 
 
