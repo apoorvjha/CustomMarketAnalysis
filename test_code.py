@@ -27,7 +27,7 @@ def driver():
 		reward_aggregate=[]
 		while(not done):
 			market.render()
-			data+=market.renderUI()
+			data=market.renderUI(mode="info")
 			uid=randint(0,len(users)-1)
 			user=users[uid]
 			obs=market.next_observation()
@@ -40,6 +40,34 @@ def driver():
 			users[uid].update_memory(array(obs),action_firm,reward,array(new_obs),done)
 			for user in users:
 				user.optimize(episode+1,done)
+		entity_frames,agent_frames=market.plot(episode+1)
 		if episode+1 % 5 == 0:
 			print(f"[+] Average reward {episode+1}/{n_episodes} = {np.sum(array(reward_aggregate))/episode+1}")
+		if data!=None:
+			data+="<br><center><h1>Visualization Dashboard</h1></center><br><br>"
+			data+="<h3>Entity Plots</h3><br>"
+			frame=0
+			data+="<table>"
+			while(frame<len(entity_frames)):
+				data+="<tr>"
+				data+='<td><img class="plots" src="'+ entity_frames[frame] +'"></td>'
+				frame+=1
+				if frame<len(entity_frames):
+					data+='<td><img class="plots" src="'+ entity_frames[frame] +'"></td>'
+					frame+=1
+				data+="</tr>"
+			data+="</table><br>"
+			data+="<h3>Agent Plots</h3><br>"
+			frame=0
+			data+="<table>"
+			while(frame<len(agent_frames)):
+				data+="<tr>"
+				data+='<td><img class="plots" src="'+ agent_frames[frame] +'"></td>'
+				frame+=1
+				if frame<len(agent_frames):
+					data+='<td><img class="plots" src="'+ agent_frames[frame] +'"></td>'
+					frame+=1
+				data+="</tr>"
+			data+="</table><br>"
+			
 	return data
