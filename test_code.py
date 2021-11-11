@@ -21,7 +21,7 @@ def driver():
 	for i in entities:
 		companies.append(sim.Company(i["name"],float(i["price"]),int(i["volume"])))
 	for i in investers:
-		users.append(trader.Agent((n_entities,2),n_entities*3,market.register(float(i["seed"]))))
+		users.append(trader.Agent([n_entities,2],n_entities*3,market.register(float(i["seed"]))))
 	for episode in range(n_episodes):
 		done=market.reset()
 		reward_aggregate=[]
@@ -31,9 +31,9 @@ def driver():
 			uid=randint(0,len(users)-1)
 			user=users[uid]
 			obs=market.next_observation()
-			action_firm=argmax(user.selectAction(array(obs).reshape(-1,n_entities,2)))
-			action=action_firm % 3
-			firm=companies[action_firm % len(companies)].name
+			action_firm=user.selectAction(array(obs).reshape(1,n_entities,2))
+			action=argmax(action_firm[0]) % 3
+			firm=companies[argmax(action_firm[0]) % n_entities].name
 			#print(f"user={uid}; action={action} ; firm={firm}")
 			new_obs, reward, done, info=market.step(action,user.id,firm)
 			reward_aggregate.append(reward)
