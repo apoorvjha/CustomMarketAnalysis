@@ -1,7 +1,7 @@
 from collections import namedtuple, deque
 from random import sample, random, randint
 from math import exp
-from numpy import array
+from numpy import array, zeros
 import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv1D, MaxPool1D, LSTM, Dropout, Flatten, Dense
@@ -99,10 +99,13 @@ class Agent:
         self.time_step+=1
         if random() > EPSILON_THRESHOLD:
             # Exploitation
+            #print(argmax(self.policy_net.predict(state)[0]))
             return self.policy_net.predict(state)
         else:
             # Exploration
-            return randint(0,self.action_space)
+            temp=zeros(self.action_space)
+            temp[randint(0,self.action_space)-1]=1
+            return array([temp])
     def optimize(self,episode_number,done):
         if len(self.memory) < self.BATCH_SIZE:
             #print("Memory instances insuffcient for training!")
