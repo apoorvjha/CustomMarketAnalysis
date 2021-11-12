@@ -1,7 +1,7 @@
 from collections import namedtuple, deque
 from random import sample, random, randint
 from math import exp
-from numpy import array, zeros
+from numpy import array, zeros, argmax
 import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv1D, MaxPool1D, LSTM, Dropout, Flatten, Dense
@@ -125,7 +125,7 @@ class Agent:
             else:
                 new_q=Reward
             current_q_value=current_q_values[index]
-            current_q_value[Action]=new_q
+            current_q_value[argmax(Action[0])]=new_q
             X.append(Current_State)
             Y.append(current_q_value)
         self.policy_net.fit(array(X),array(Y),batch_size=self.BATCH_SIZE,verbose=0,shuffle=False)
