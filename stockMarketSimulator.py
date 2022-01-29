@@ -359,16 +359,18 @@ class StockMarket(gym.Env):
         entity_frames=[]
         agent_frames=[]
         for col in self.firms:
-            plt.xlabel("Price")
-            plt.ylabel("Holders")
+            plt.clf()
+            plt.xlabel("Epochs")
+            plt.ylabel("Price")
             plt.title(f"Price versus Time for {col.name} entity")
             plt.plot(self.dataset_firms[col.name]["Price"],linewidth=2)
             plt.savefig(f"./static/plots/{col.name}{ep}.png")
             entity_frames.append(f"./static/plots/{col.name}{ep}.png")
             plt.close()
         for col in self.investment.keys():
-            plt.xlabel("Asset_Balance")
-            plt.ylabel("Time")
+            plt.clf()
+            plt.xlabel("Epochs")
+            plt.ylabel("Asset Balance")
             plt.title(f"Asset_Balance vs Time for {col} agent")
             plt.plot(self.dataset_trader[col]["Asset_Balance"],linewidth=2)
             plt.savefig(f"./static/plots/{col}{ep}.png")
