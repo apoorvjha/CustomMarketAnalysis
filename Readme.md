@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 Phases of the project
 # Brainstorming 
+=======
+				      				# Phases of the project
+## Brainstorming 
+>>>>>>> 580641682d7eee10f55ab1e4b279102f2ff2bdf3
 The end result of this project is an Algorithmic trading bot that can make optimal/sub-optimal trading decisions in the inhouse simulated environment. The simulated stock market is created using the data that dynamically gets generated based on the actions of the agents and random fluctuations coded into the price update policy. 
 
 The bot will be trainned using Reinforcement learning paradigm which allows for optimization of actions based on the reward received from the simulator. 
@@ -10,7 +15,7 @@ The simulator is planned to be developed in such a way that it can be beneficial
 
 For the sake of experimentation I will be incorporating some subset of RL as well as some other timeseries forecasting models into the test so as to benchmark the RL baed solution with respect to traditional models.
 
-# Simulator
+## Simulator
 The open AI gym library is used as blueprint for our simulator and former is inherited in the later. The Entities/Assets of the market is defined in Company class. The list of such Company class objects will be passed into the the StockMarket class. The later is capable of maneuvering the asset's price in the market based on the curated price update policy which can be tweaked to change the nature of the market. In my perception I have adoped the policy of overall progressing market with certain random fluctions exploded with respect to the number of trading agents. This inherently simulates inflation. The reaward which a trader receives is also curated and is subjective decision of the person using this simulator. The reward heavily supports liquidity as asset valuation and diference between initial investment and balance amount arethe key factors for the same.
 Following are possible ways which one can use to run the simulator : 
 	1. Imporing the code.
@@ -44,7 +49,11 @@ Following are possible ways which one can use to run the simulator :
 			$python3 [FILE_NAME].py
 	2. Alternatively, the same code as part 1b can be written at the end of the file stockMarketSimulator.py excluding the import part and droping the prefix "sim.". The updated code an then be executed as below,
 	$python3 stockMarketSimulator.py
+<<<<<<< HEAD
 # Note : The Snippet described here is provide as a seperte file as test_code.py for instances if you do not want to go through pain of writing one for yourself. 
+=======
+# Note : The Snippet described here is provide as a seperate file as test_code.py for instances if you do not want to go through pain of writing one for yourself. 
+>>>>>>> 580641682d7eee10f55ab1e4b279102f2ff2bdf3
 # Note : The Simulator is modified to incorporate concurrency control by using lock on the asset untill the transaction/trade order has been completed.
 # Reinforcement Learning agent
 The RL_Agent.py contains code for defining the architecture of deep learning network based on the paradigm discussed in DQN paper for solving problems with continous observation spaces. The constraint of this architecture is that it does not work for realm outside discrete action space. To deal with such shortcomming a more versatile but computationally exensive architecture is prescribed in literature as DDPG which is outside scope of this project. Since, our action space is discrete so we need to get into that pathway. The Epsilon greedy strategy is used to choose appropriate actions for the agents as it provides a balanced opportunity to the agents to explore and exploit. The gaussian smoothing operation is used to degrade the value of epsilon. The discount factor used is very high as used in many literary articles I have read. The experience replay memory is used to break the shackles of order dependency of states. Finally the configuration related to multiagent multi entity framework is defined in a JSON file which may gets generated dynamically on request of a web server implementing restfull architecture to provide API for leveraging the agent and simulated environment functinality.
